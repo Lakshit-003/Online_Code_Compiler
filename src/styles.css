@@ -1,0 +1,231 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark-mode {
+  background-color: #1e1e1e;
+  color: #f8f9fa;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #495057;
+  color: white;
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-select {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.theme-toggle {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.code-panels {
+  display: flex;
+  height: 50%;
+  border-bottom: 1px solid #ddd;
+}
+
+.dark-mode .code-panels {
+  border-color: #444;
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+}
+
+.dark-mode .panel {
+  border-color: #444;
+}
+
+.panel:last-child {
+  border-right: none;
+}
+
+.panel-header {
+  padding: 8px;
+  background-color: #e9ecef;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.dark-mode .panel-header {
+  background-color: #343a40;
+  border-color: #444;
+}
+
+/* CodeMirror specific styles */
+.codemirror-wrapper {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+.codemirror-wrapper .CodeMirror {
+  height: 100% !important;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 14px;
+  overflow: visible;
+}
+
+.codemirror-wrapper .CodeMirror-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.codemirror-wrapper .CodeMirror-vscrollbar,
+.codemirror-wrapper .CodeMirror-hscrollbar {
+  outline: none;
+}
+
+/* CodeMirror lint tooltip styles */
+.CodeMirror-lint-tooltip {
+  background-color: #ffd;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: black;
+  font-family: monospace;
+  overflow: hidden;
+  padding: 2px 5px;
+  position: fixed;
+  white-space: pre;
+  white-space: pre-wrap;
+  z-index: 100;
+  max-width: 600px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  font-size: 12px;
+}
+
+.dark-mode .CodeMirror-lint-tooltip {
+  background-color: #333;
+  border-color: #666;
+  color: #f8f9fa;
+}
+
+.CodeMirror-lint-mark-error {
+  background-position: left bottom;
+  background-repeat: repeat-x;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==");
+}
+
+.CodeMirror-lint-mark-warning {
+  background-position: left bottom;
+  background-repeat: repeat-x;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJFhQXEbhTg7YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAMklEQVQI12NkgIIvJ3QXMjAwdDN+OaEbysDA4MPAwNDNwMCwiOHLCd1zX07o6kBVGQEAKBANtobskNMAAAAASUVORK5CYII=");
+}
+
+.preview-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-frame {
+  flex: 1;
+  border: none;
+  background-color: white;
+}
+
+.dark-mode .preview-frame {
+  background-color: #252525;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .code-panels {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .panel {
+    height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .dark-mode .panel {
+    border-color: #444;
+  }
+
+  .panel:last-child {
+    border-bottom: none;
+  }
+
+  .theme-selector {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .theme-select {
+    width: 100%;
+  }
+}

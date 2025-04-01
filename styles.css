@@ -1,0 +1,389 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+}
+
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #f8f9fa;
+}
+
+.Resizer {
+  background: #ddd;
+  z-index: 1;
+  box-sizing: border-box;
+  background-clip: padding-box;
+}
+
+.Resizer.horizontal {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.vertical {
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+.Resizer.horizontal:hover,
+.Resizer.vertical:hover {
+  background: #999;
+}
+
+.dark-mode .Resizer {
+  background: #444;
+}
+
+.dark-mode .Resizer.horizontal:hover,
+.dark-mode .Resizer.vertical:hover {
+  background: #666;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #e9ecef;
+  border-bottom: 1px solid #ced4da;
+}
+
+.dark-mode .editor-header {
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #444;
+}
+
+.editor-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.editor-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  color: #495057;
+}
+
+.dark-mode .editor-button {
+  color: #adb5bd;
+}
+
+.editor-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .editor-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.editor-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-content {
+  flex: 1;
+  overflow: auto;
+}
+
+.preview-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #e9ecef;
+  border-bottom: 1px solid #ced4da;
+}
+
+.dark-mode .preview-header {
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #444;
+}
+
+.preview-content {
+  flex: 1;
+  padding: 0;
+  overflow: auto;
+  background-color: white;
+  border: none;
+  width: 100%;
+}
+
+.dark-mode .preview-content {
+  background-color: #252525;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #495057;
+  color: white;
+}
+
+.dark-mode .navbar {
+  background-color: #343a40;
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #2196f3;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.theme-select {
+  appearance: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 24px 4px 8px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.dark-mode .theme-select {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.add-panel-button {
+  position: absolute;
+  z-index: 10;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .add-panel-button {
+  background-color: #5c636a;
+}
+
+.add-panel-button:hover {
+  background-color: #5a6268;
+}
+
+.dark-mode .add-panel-button:hover {
+  background-color: #495057;
+}
+
+.hidden-panel-button-html {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.hidden-panel-button-css {
+  top: 50%;
+  left: 33.33%;
+  transform: translate(-50%, -50%);
+}
+
+.hidden-panel-button-js {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.code-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Code Mirror overrides for better responsiveness */
+.CodeMirror {
+  height: 100% !important;
+  font-size: 14px;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .Resizer.vertical {
+    width: 8px;
+    margin: 0 -4px;
+  }
+
+  .Resizer.horizontal {
+    height: 8px;
+    margin: -4px 0;
+  }
+
+  .editor-header {
+    padding: 6px 10px;
+  }
+
+  .editor-title {
+    font-size: 12px;
+  }
+
+  .preview-header {
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-title {
+    font-size: 16px;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+  }
+
+  .editor-button {
+    font-size: 14px;
+    padding: 3px;
+  }
+
+  .CodeMirror {
+    font-size: 12px;
+  }
+}
+
+/* Improve touchscreen experience */
+@media (pointer: coarse) {
+  .Resizer.vertical,
+  .Resizer.horizontal {
+    background: #999;
+  }
+
+  .dark-mode .Resizer.vertical,
+  .dark-mode .Resizer.horizontal {
+    background: #666;
+  }
+
+  .add-panel-button {
+    width: 36px;
+    height: 36px;
+  }
+}

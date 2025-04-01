@@ -1,0 +1,23 @@
+{
+  "name": "online-code-compiler",
+  "version": "1.0.0",
+  "description": "An online code compiler for HTML, CSS, and JavaScript",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "codemirror": "^5.65.13",
+    "jshint": "^2.13.6",
+    "react": "^17.0.2",
+    "react-codemirror2": "^7.2.1",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "assert": "^2.1.0",
+    "events": "^3.3.0",
+    "parcel": "^2.9.3",
+    "process": "^0.11.10",
+    "util": "^0.12.5"
+  }
+}
