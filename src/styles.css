@@ -55,6 +55,16 @@ body {
   cursor: pointer;
 }
 
+.theme-select option {
+  color: black;
+  background-color: white;
+}
+
+.dark-mode .theme-select option {
+  color: white;
+  background-color: #333;
+}
+
 .theme-toggle {
   background-color: rgba(255, 255, 255, 0.1);
   border: none;
@@ -77,8 +87,8 @@ body {
 
 .code-panels {
   display: flex;
-  height: 50%;
   border-bottom: 1px solid #ddd;
+  min-width: 0;
 }
 
 .dark-mode .code-panels {
@@ -90,6 +100,9 @@ body {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ddd;
+  min-width: 15%;
+  max-width: 70%;
+  transition: width 0.1s;
 }
 
 .dark-mode .panel {
@@ -112,23 +125,43 @@ body {
   border-color: #444;
 }
 
-/* CodeMirror specific styles */
+/* CodeMirror specific styles
+.codemirror-wrapper,
+.codemirror-wrapper .react-codemirror2,
+.react-codemirror2 {
+  width: 100% !important;
+  box-sizing: border-box;
+  overflow-x: hidden !important;
+}
+
+.codemirror-wrapper .CodeMirror,
+.codemirror-wrapper .CodeMirror-scroll {
+  width: 100% !important;
+  box-sizing: border-box;
+  overflow-x: hidden !important;
+} */
+
 .codemirror-wrapper {
   flex: 1;
-  overflow: auto;
   position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .codemirror-wrapper .CodeMirror {
   height: 100% !important;
+  min-height: 100px;
+  max-height: 100%;
   font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 14px;
   overflow: visible;
 }
 
 .codemirror-wrapper .CodeMirror-scroll {
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: auto;
+  max-height: 100%;
 }
 
 .codemirror-wrapper .CodeMirror-vscrollbar,
@@ -228,4 +261,23 @@ body {
   .theme-select {
     width: 100%;
   }
+}
+
+.resizer {
+  width: 6px;
+  background: #e0e0e0;
+  cursor: col-resize;
+  transition: background 0.2s;
+  z-index: 2;
+}
+.resizer:hover,
+.resizer.active {
+  background: #bdbdbd;
+}
+.dark-mode .resizer {
+  background: #444;
+}
+.dark-mode .resizer:hover,
+.dark-mode .resizer.active {
+  background: #888;
 }

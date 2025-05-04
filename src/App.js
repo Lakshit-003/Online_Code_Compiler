@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./styles.css";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
@@ -48,6 +48,10 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState("neat"); // Default theme
+  const [panelWidths, setPanelWidths] = useState([33.33, 33.33, 33.34]);
+  const [draggingIndex, setDraggingIndex] = useState(null);
+  const dragging = useRef(null);
+  const panelWidthsRef = useRef(panelWidths);
 
   // Available themes
   const themes = [
@@ -66,6 +70,10 @@ function App() {
       document.body.classList.remove("dark-mode");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    panelWidthsRef.current = panelWidths;
+  }, [panelWidths]);
 
   // Generate the preview HTML
   const combinedCode = `
@@ -106,6 +114,60 @@ function App() {
     };
   };
 
+  // Handle mouse events for resizing
+  const onMouseDown = useCallback((index, e) => {
+    dragging.current = {
+      index,
+      startX: e.clientX,
+      startWidths: [...panelWidthsRef.current],
+    };
+    setDraggingIndex(index);
+  }, []);
+
+  const onMouseMove = useCallback((e) => {
+    if (!dragging.current) return;
+    const { index, startX, startWidths } = dragging.current;
+    const dx = e.clientX - startX;
+    const container = document.querySelector(".code-panels");
+    const totalWidth = container.offsetWidth;
+    const deltaPercent = (dx / totalWidth) * 100;
+    let newWidths = [...startWidths];
+    // Limit: min 15%, max 70%
+    if (
+      startWidths[index] + deltaPercent < 15 ||
+      startWidths[index] + deltaPercent > 70 ||
+      startWidths[index + 1] - deltaPercent < 15 ||
+      startWidths[index + 1] - deltaPercent > 70
+    ) {
+      return;
+    }
+    newWidths[index] = startWidths[index] + deltaPercent;
+    newWidths[index + 1] = startWidths[index + 1] - deltaPercent;
+    setPanelWidths(newWidths);
+  }, []);
+
+  const onMouseUp = useCallback(() => {
+    dragging.current = null;
+    setDraggingIndex(null);
+  }, []);
+
+  useEffect(() => {
+    if (draggingIndex !== null) {
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+      document.body.style.cursor = "col-resize";
+    } else {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+      document.body.style.cursor = "";
+    }
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+      document.body.style.cursor = "";
+    };
+  }, [draggingIndex, onMouseMove, onMouseUp]);
+
   return (
     <div className={`app-container ${darkMode ? "dark-mode" : ""}`}>
       <div className="navbar">
@@ -137,7 +199,7 @@ function App() {
 
       <div className="editor-container">
         <div className="code-panels">
-          <div className="panel">
+          <div className="panel" style={{ width: `${panelWidths[0]}%` }}>
             <div className="panel-header">HTML</div>
             <div className="codemirror-wrapper">
               <CodeMirror
@@ -149,8 +211,13 @@ function App() {
               />
             </div>
           </div>
-
-          <div className="panel">
+          <div
+            id="resizer-html-css"
+            className={`resizer${draggingIndex === 0 ? " active" : ""}`}
+            onMouseDown={(e) => onMouseDown(0, e)}
+            style={{ cursor: "col-resize" }}
+          />
+          <div className="panel" style={{ width: `${panelWidths[1]}%` }}>
             <div className="panel-header">CSS</div>
             <div className="codemirror-wrapper">
               <CodeMirror
@@ -162,8 +229,13 @@ function App() {
               />
             </div>
           </div>
-
-          <div className="panel">
+          <div
+            id="resizer-css-js"
+            className={`resizer${draggingIndex === 1 ? " active" : ""}`}
+            onMouseDown={(e) => onMouseDown(1, e)}
+            style={{ cursor: "col-resize" }}
+          />
+          <div className="panel" style={{ width: `${panelWidths[2]}%` }}>
             <div className="panel-header">JavaScript</div>
             <div className="codemirror-wrapper">
               <CodeMirror
